@@ -1,11 +1,11 @@
 "use client";
-import { Box, Loading, StandardCard } from "@ritwikdax/uicc";
+import { Loading, StandardCard } from "@ritwikdax/uicc";
 import ProjectForm from "./ProjectForm";
-import { BookmarkFilledIcon } from "@radix-ui/react-icons";
 import { useCreateProjectMutation } from "@/app/mutations/useCreateProjectMutation";
 import { useUpdateProjectMutation } from "@/app/mutations/useUpdateProjectMutation";
 import { useProjectById } from "@/app/queries/useProjectById";
 import { Project } from "@/app/interfaces/entity";
+import { FaPlus } from "react-icons/fa6";
 
 interface ManageProjectProps {
   mode: "create" | "edit";
@@ -35,7 +35,7 @@ export default function ManageProject({ mode }: ManageProjectProps) {
     <div style={{ maxWidth: "600px", margin: "auto" }}>
       <StandardCard
         title={mode === "create" ? "Add Project" : "Edit Project"}
-        icon={<BookmarkFilledIcon />}
+        icon={<FaPlus />}
       >
         <ProjectForm
           isLoading={

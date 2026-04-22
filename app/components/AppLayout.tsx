@@ -8,7 +8,8 @@ import { LuBookHeart } from "react-icons/lu";
 import { TbCurrencyRupee } from "react-icons/tb";
 import { RiAddBoxLine } from "react-icons/ri";
 import { GrDocumentImage } from "react-icons/gr";
-import { useHamburgerMenu } from "../(pages)/projects/hooks/useHamburgerMenu";
+import { useHamburgerMenu } from "../hooks/useHamburgerMenu";
+import { RiHome9Line } from "react-icons/ri";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -22,7 +23,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             {
               id: "1",
               label: "Home",
-              icon: <IoHomeOutline />,
+              icon: <RiHome9Line />,
               href: "/",
               isActive: pathname === "/",
             },

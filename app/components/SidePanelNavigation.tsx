@@ -1,4 +1,4 @@
-import { useHamburgerMenu } from "../(pages)/projects/hooks/useHamburgerMenu";
+import { useHamburgerMenu } from "../hooks/useHamburgerMenu";
 import { Box, Flex, Tooltip, Text } from "@ritwikdax/uicc";
 import Link from "next/link";
 
@@ -14,17 +14,18 @@ interface SidePanelNavigationProps {
 
 function TooltipContent({ label }: { label: string }) {
   return (
-    <Box
+    <Text
+      as="span"
+      weight="medium"
+      size="2"
       style={{
         padding: "var(--space-2) var(--space-4)",
         minWidth: "80px",
-        borderRadius: "var(--radius-2)",
+        display: "inline-block",
       }}
     >
-      <Text weight="medium" size="2">
-        {label}
-      </Text>
-    </Box>
+      {label}
+    </Text>
   );
 }
 
@@ -44,7 +45,7 @@ export default function SidePanelNavigation({
         transition: "width 0.3s ease, opacity 0.3s ease, padding 0.3s ease",
         opacity: open ? 1 : 0,
         overflow: "hidden",
-        backgroundColor: "var(--gray-2)",
+        backgroundColor: "var(--accent-2)",
         borderRadius: "var(--radius-3)",
         padding: open ? "var(--space-3)" : "0",
         zIndex: 10,

@@ -6,12 +6,13 @@ import { Project } from "../../../interfaces/entity";
 import { Pencil2Icon } from "@radix-ui/react-icons";
 import { ThreeDotActions } from "@/app/components";
 import ProjectStatus from "../components/ProjectStatus";
-import { Badge } from "@ritwikdax/uicc";
 import ProjectBookingCategory from "../components/ProjectBookingCategory";
 import { useRouter } from "next/navigation";
-import { dateFormatter } from "@/app/utils";
+import { RiDeleteBinLine } from "react-icons/ri";
+import { useDeleteProjectDialog } from "@/app/hooks/useDeleteProjectDialog";
 export function useProjectTableColumns(): ColumnDef<Project>[] {
   const router = useRouter();
+  const { show } = useDeleteProjectDialog();
 
   return useMemo<ColumnDef<Project>[]>(
     () => [
@@ -41,15 +42,6 @@ export function useProjectTableColumns(): ColumnDef<Project>[] {
           return <ProjectBookingCategory category={value} />;
         },
       },
-      // {
-      //   accessorKey: "dateOfBooking",
-      //   header: "Booking Date",
-      //   cell: (info) => {
-      //     const date = info.getValue<Date>();
-      //     return dateFormatter(new Date(date), { includeDay: false });
-      //   },
-      // },
-
       {
         accessorKey: "softcopyUrl",
         header: "Softcopy",
@@ -69,11 +61,19 @@ export function useProjectTableColumns(): ColumnDef<Project>[] {
                   label: "Edit",
                   value: "edit",
                   icon: <Pencil2Icon width="16" height="16" />,
+                  onClick: () => {
+                    router.push(`/projects/edit/${info.row.original.id}`);
+                  },
+                },
+                {
+                  label: "Delete",
+                  value: "delete",
+                  icon: <RiDeleteBinLine width="16" height="16" />,
+                  onClick: () => {
+                    show(info.row.original.id);
+                  },
                 },
               ]}
-              onItemClick={() => {
-                router.push(`/projects/edit/${info.row.original.id}`);
-              }}
             />
           );
         },

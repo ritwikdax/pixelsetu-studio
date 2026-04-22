@@ -1,6 +1,7 @@
 import { RxHamburgerMenu } from "react-icons/rx";
 import { BiLeftArrowAlt } from "react-icons/bi";
-import { useHamburgerMenu } from "../(pages)/projects/hooks/useHamburgerMenu";
+import { useHamburgerMenu } from "../hooks/useHamburgerMenu";
+import { FaXmark } from "react-icons/fa6";
 
 export default function HamburgerMenu() {
   const { open, toggle } = useHamburgerMenu();
@@ -39,7 +40,7 @@ export default function HamburgerMenu() {
           pointerEvents: open ? "auto" : "none",
         }}
       >
-        <BiLeftArrowAlt size={24} />
+        <FaXmark size={24} />
       </div>
     </div>
   );

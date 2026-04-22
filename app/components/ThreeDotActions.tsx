@@ -7,16 +7,17 @@ export interface MenuItem {
   value: string;
   icon?: React.ReactNode;
   disabled?: boolean;
+  onClick?: () => void;
 }
 
 interface ThreeDotActionsProps {
   items: MenuItem[];
-  onItemClick: (value: string) => void;
+  //   onItemClick: (value: string) => void;
 }
 
 export default function ThreeDotActions({
   items,
-  onItemClick,
+  //   onItemClick,
 }: ThreeDotActionsProps) {
   return (
     <Popover.Root>
@@ -41,7 +42,7 @@ export default function ThreeDotActions({
               onClick={(e) => {
                 e.stopPropagation();
                 if (!item.disabled) {
-                  onItemClick(item.value);
+                  item.onClick?.();
                 }
               }}
             />

@@ -1,13 +1,10 @@
 export interface ProjectFilter {
   limit?: number;
   status?: string;
-  bookingCategory?: string;
   searchTerm?: string;
-  softcopyUrl?: string;
+  softcopyUrl?: boolean;
   byMonth?: {
     month?: number;
     year?: number;
   };
-  startDate?: Date;
-  endDate?: Date;
 }

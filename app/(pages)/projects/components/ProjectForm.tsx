@@ -143,17 +143,20 @@ export default function ProjectForm({
 
         {/* Quotation Amount */}
         <Flex direction="column" gap="1">
-          <FieldLabel label="Quotation Amount" required />
+          <FieldLabel label="Quotation Amount ₹" />
           <TextField.Root
             size="3"
             type="number"
             placeholder="0"
             {...register("quotationAmount", {
-              required: "Quotation amount is required",
               valueAsNumber: true,
               min: {
                 value: 0,
                 message: "Amount must be positive",
+              },
+              max: {
+                value: 10000000,
+                message: "Amount is too large",
               },
             })}
             color={errors.quotationAmount ? "red" : undefined}
