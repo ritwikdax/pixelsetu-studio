@@ -75,7 +75,6 @@ export function usePaymentColumns(): ColumnDef<Payment>[] {
                 label: "Delete",
                 value: "delete",
                 icon: <RiDeleteBinLine width="16" height="16" />,
-                color: "red",
                 onClick: () => {
                   show(info.row.original.id);
                 },
