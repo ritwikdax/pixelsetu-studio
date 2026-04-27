@@ -1,5 +1,4 @@
 "use client";
-
 import { useMemo } from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import { Project } from "../../../interfaces/entity";
@@ -31,17 +30,11 @@ export function useProjectTableColumns(): ColumnDef<Project>[] {
       },
       {
         accessorKey: "dateOfBooking",
-        header: "Date of Booking",
+        header: "Event Month",
         cell: (info) =>
           dateFormatter(new Date(info.getValue<string>()), {
             includeDay: false,
           }),
-      },
-
-      {
-        accessorKey: "phone",
-        header: "Phone",
-        cell: (info) => info.getValue(),
       },
       {
         accessorKey: "bookingCategory",
