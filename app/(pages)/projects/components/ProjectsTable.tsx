@@ -42,7 +42,7 @@ export default function ProjectsTable() {
   return (
     <>
       <Table.Root size="2">
-        <Table.Header style={{ backgroundColor: "var(--accent-1)" }}>
+        <Table.Header style={{ backgroundColor: "var(--bg-panel)" }}>
           {table.getHeaderGroups().map((headerGroup) => (
             <Table.Row key={headerGroup.id}>
               {headerGroup.headers.map((header) => (

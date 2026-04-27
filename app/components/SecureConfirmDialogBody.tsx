@@ -37,7 +37,7 @@ export default function SecuredConfirmDialogBody({
   };
 
   return (
-    <>
+    <div>
       <Text size="2" mb="4">
         {message}
       </Text>
@@ -48,6 +48,7 @@ export default function SecuredConfirmDialogBody({
         </Text>
         <TextField.Root
           size="3"
+          mt="4"
           placeholder={`Type "${confirmationWord}" here`}
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
@@ -55,7 +56,7 @@ export default function SecuredConfirmDialogBody({
         />
       </Flex>
 
-      <Flex justify="end" gap="2">
+      <Flex justify="end" gap="2" mt="6">
         <Button
           size="3"
           variant="outline"
@@ -74,6 +75,6 @@ export default function SecuredConfirmDialogBody({
           {isSubmitting ? "Processing…" : confirmButtonText}
         </Button>
       </Flex>
-    </>
+    </div>
   );
 }

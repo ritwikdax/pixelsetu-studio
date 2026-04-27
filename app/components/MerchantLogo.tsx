@@ -25,8 +25,8 @@ export default function MerchantLogo() {
           src={
             data
               ? resolvedTheme === "dark"
-                ? data.org?.lightLogoUrl
-                : data.org?.darkLogoUrl
+                ? data.org?.lightLogoUrl || null
+                : data.org?.darkLogoUrl || null
               : "https://pixelsetu.com/favicon.ico"
           }
           alt="PixelSetu Logo"

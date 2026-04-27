@@ -3,7 +3,7 @@ import SecuredConfirmDialogBody from "../components/SecureConfirmDialogBody";
 import { useDeleteProjectMutation } from "../mutations/useDeleteProjectMutation";
 
 export function useDeleteProjectDialog() {
-  const { isOpen, show, hide } = useDialog();
+  const { show, hide } = useDialog();
   const deleteMutation = useDeleteProjectMutation();
 
   return {

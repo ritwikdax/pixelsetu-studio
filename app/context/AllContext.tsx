@@ -29,9 +29,9 @@ export default function AllContext({
     <QueryClientProvider client={queryClient}>
       <PixelThemeProvider>
         <ToastProvider>
-          <DialogProvider>
-            <AppLayout>{children}</AppLayout>
-          </DialogProvider>
+          <AppLayout>
+            <DialogProvider>{children} </DialogProvider>
+          </AppLayout>
         </ToastProvider>
       </PixelThemeProvider>
     </QueryClientProvider>

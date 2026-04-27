@@ -45,7 +45,7 @@ export default function SidePanelNavigation({
         transition: "width 0.3s ease, opacity 0.3s ease, padding 0.3s ease",
         opacity: open ? 1 : 0,
         overflow: "hidden",
-        backgroundColor: "var(--accent-2)",
+        backgroundColor: "var(--bg-panel)",
         borderRadius: "var(--radius-3)",
         padding: open ? "var(--space-3)" : "0",
         zIndex: 10,

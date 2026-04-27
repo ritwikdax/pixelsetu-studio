@@ -13,5 +13,18 @@ body {
 }
 
 .table-row-hover:hover {
-  background-color: var(--accent-2);
+  background-color: var(--bg-panel);
+}
+
+:root {
+  --bg-panel: #f3f3f3;
+  --color-panel-solid: #f1f1f1;
+}
+
+.dark,
+.dark,
+.dark-theme,
+:is(.dark, .dark-theme) :where(.radix-themes:not(.light, .light-theme)) {
+  --bg-panel: #000217;
+  --color-panel-solid: #000217;
 }

@@ -2,14 +2,13 @@
 import { Flex } from "@ritwikdax/uicc";
 import SidePanelNavigation from "./SidePanelNavigation";
 import TopNav from "./TopNav";
-import { IoHomeOutline } from "react-icons/io5";
 import { usePathname } from "next/navigation";
 import { LuBookHeart } from "react-icons/lu";
 import { TbCurrencyRupee } from "react-icons/tb";
 import { RiAddBoxLine } from "react-icons/ri";
-import { GrDocumentImage } from "react-icons/gr";
 import { useHamburgerMenu } from "../hooks/useHamburgerMenu";
 import { RiHome9Line } from "react-icons/ri";
+import { GrDocumentText } from "react-icons/gr";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -30,7 +29,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             {
               id: "2",
               label: "Projects",
-              icon: <GrDocumentImage />,
+              icon: <GrDocumentText />,
               href: "/projects",
               isActive: pathname === "/projects",
             },

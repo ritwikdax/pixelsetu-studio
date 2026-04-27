@@ -30,19 +30,22 @@ export interface Project {
 }
 
 export interface Album {
-  project: {
-    id: string;
-    name: string;
-  };
-  dateOfBooking: Date;
+  id: string;
+  projectName: string;
   projectId: string;
-  albumName: string;
+  name: string;
   isSelectionAllowed: boolean;
   maxSelectionCount: number;
   alreadySelectedCount?: number;
-  isSelectionSubmitted?: boolean;
-  selectionSubmittedAt?: string;
-  isSelectionStarted?: boolean;
-  selectionStartedAt?: string;
-  comment?: string;
+  status: "not_started" | "in_progress" | "submitted";
+}
+
+export interface Payment {
+  id: string;
+  projectId: string;
+  projectName: string;
+  amount: number;
+  date: Date;
+  mode: "online" | "offline";
+  notify: boolean;
 }

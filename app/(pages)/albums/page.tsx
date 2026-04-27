@@ -1,3 +1,5 @@
+import AlbumsTable from "./components/AlbumsTable";
+
 export default function AlbumsPage() {
-  return <div>Albums Page</div>;
+  return <AlbumsTable />;
 }

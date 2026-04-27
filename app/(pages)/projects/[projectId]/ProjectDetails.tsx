@@ -1,6 +1,13 @@
 "use client";
 import { useProjectById } from "@/app/queries/useProjectById";
-import { Box, Link, Loading, StandardCard, Text } from "@ritwikdax/uicc";
+import {
+  Box,
+  Button,
+  Link,
+  Loading,
+  StandardCard,
+  Text,
+} from "@ritwikdax/uicc";
 import KeyValueList from "../components/KeyValueList";
 import { IoDocumentText } from "react-icons/io5";
 import { dateFormatter, transform } from "@/app/utils";
@@ -15,7 +22,18 @@ export default function ProjectDetails() {
     return <Loading />;
   }
   return (
-    <StandardCard title="Project Details" icon={<IoDocumentText />}>
+    <StandardCard
+      title="Project Details"
+      icon={<IoDocumentText />}
+      action={
+        <Button
+          onClick={() => router.push(`/projects/edit/${project?.id}`)}
+          variant="outline"
+        >
+          Edit
+        </Button>
+      }
+    >
       <KeyValueList
         data={project || {}}
         omitKeys={["id", "createdAt", "updatedAt", "password"]}

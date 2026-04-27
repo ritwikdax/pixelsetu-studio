@@ -9,6 +9,9 @@ import {
 import { ActionItemList } from "@ritwikdax/uicc";
 import { useRouter } from "next/navigation";
 import { useAuthContextQuery } from "../queries/useAuthContext";
+import { GrDocumentText } from "react-icons/gr";
+import { RiAddBoxLine } from "react-icons/ri";
+import { LuBookHeart } from "react-icons/lu";
 
 export default function UserActions() {
   const router = useRouter();
@@ -20,19 +23,19 @@ export default function UserActions() {
           {
             id: "projects",
             label: "Projects",
-            icon: <EnvelopeOpenIcon width="16" height="16" />,
+            icon: <GrDocumentText />,
             onClick: () => router.push("/projects"),
           },
           {
             id: "albums",
             label: "Albums",
-            icon: <EnvelopeOpenIcon width="16" height="16" />,
+            icon: <LuBookHeart/>,
             onClick: () => router.push("/albums"),
           },
           {
             id: "add-project",
             label: "Add Project",
-            icon: <Pencil1Icon width="16" height="16" />,
+            icon: <RiAddBoxLine/>,
             onClick: () => router.push("/projects/add"),
           },
         ]}

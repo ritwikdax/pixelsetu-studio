@@ -10,6 +10,7 @@ import ProjectBookingCategory from "../components/ProjectBookingCategory";
 import { useRouter } from "next/navigation";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { useDeleteProjectDialog } from "@/app/hooks/useDeleteProjectDialog";
+import { dateFormatter } from "@/app/utils";
 export function useProjectTableColumns(): ColumnDef<Project>[] {
   const router = useRouter();
   const { show } = useDeleteProjectDialog();
@@ -27,6 +28,14 @@ export function useProjectTableColumns(): ColumnDef<Project>[] {
         cell: (info) => {
           return <ProjectStatus status={info.getValue<Project["status"]>()} />;
         },
+      },
+      {
+        accessorKey: "dateOfBooking",
+        header: "Date of Booking",
+        cell: (info) =>
+          dateFormatter(new Date(info.getValue<string>()), {
+            includeDay: false,
+          }),
       },
 
       {
