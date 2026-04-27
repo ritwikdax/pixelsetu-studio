@@ -10,7 +10,7 @@ export function useAuthContextQuery({
     enabled,
     queryFn: async () => {
       const { data: meData } =
-        await authApi.get<SuccessResponse<ProfileInfo>>("api//me");
+        await authApi.get<SuccessResponse<ProfileInfo>>("api/me");
       //return meData?.data; // Assuming the user info is in data.data
       const { data: orgData } =
         await authApi.get<SuccessResponse<OrgInfo>>("api/org");
