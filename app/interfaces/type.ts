@@ -57,3 +57,12 @@ export interface OrgInfo {
 }
 
 export type OrgRole = "owner" | "admin" | "editor" | "viewer";
+
+export interface OrgMember {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  avatarUrl: string;
+  role: OrgRole;
+}

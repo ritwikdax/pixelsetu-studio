@@ -1,18 +1,28 @@
 "use client";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { appApi } from "@utils/http";
-import { Project } from "../interfaces/entity";
-import { useParams } from "next/navigation";
+import { listQueryOptions } from "@utils/query";
 import { useProjectFilter } from "../hooks/useProjectFilter";
+import { ProjectsListResponse } from "../interfaces/api.type";
+import {
+  buildProjectsSearchParams,
+  serializeProjectFilter,
+} from "../utils/projectQuery";
 
 export function useProjectsByFilter() {
   const [filter] = useProjectFilter();
-  return useQuery({
-    enabled: !!filter,
-    queryKey: ["projects", JSON.stringify(filter)],
-    queryFn: async () => {
-      const response = await appApi.post("/studio/projects/filter", filter);
-      return response.data?.data as Project[];
+
+  return useInfiniteQuery({
+    queryKey: ["projects", serializeProjectFilter(filter)],
+    queryFn: async ({ pageParam }) => {
+      const searchParams = buildProjectsSearchParams(filter, pageParam);
+      const response = await appApi.get<ProjectsListResponse>(
+        `/projects?${searchParams}`,
+      );
+      return response.data;
     },
+    initialPageParam: undefined as string | undefined,
+    getNextPageParam: (lastPage) => lastPage.next,
+    ...listQueryOptions,
   });
 }

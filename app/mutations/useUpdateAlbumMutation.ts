@@ -18,7 +18,7 @@ export function useUpdateAlbumMutation() {
 
   return useMutation({
     mutationFn: async (data: UpdateAlbumData) => {
-      const response = await appApi.patch(`/studio/albums/${albumId}`, data);
+      const response = await appApi.patch(`/albums/${albumId}`, data);
       return response.data;
     },
 

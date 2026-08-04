@@ -8,9 +8,8 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import HamburgerMenu from "./HamburgerMenu";
 
 export default function TopNavBar() {
-  const { data, isLoading } = useAuthContextQuery();
+  const { data } = useAuthContextQuery();
   const mt = useSwitchActiveOrgMutation();
-  if (isLoading) return null;
 
   return (
     <TopNav

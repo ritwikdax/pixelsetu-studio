@@ -16,9 +16,9 @@ import ProjectBookingCategory from "../components/ProjectBookingCategory";
 import { useRouter } from "next/navigation";
 
 export default function ProjectDetails() {
-  const { data: project, isLoading } = useProjectById();
+  const { data: project, isPending } = useProjectById();
   const router = useRouter();
-  if (isLoading) {
+  if (isPending) {
     return <Loading />;
   }
   return (

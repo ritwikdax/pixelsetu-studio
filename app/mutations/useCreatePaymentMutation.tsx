@@ -18,7 +18,7 @@ export function useCreatePaymentMutation() {
 
   return useMutation({
     mutationFn: async (data: CreatePaymentData) => {
-      const response = await appApi.post(`/studio/payments`, data);
+      const response = await appApi.post(`/payments`, data);
       return response.data;
     },
 

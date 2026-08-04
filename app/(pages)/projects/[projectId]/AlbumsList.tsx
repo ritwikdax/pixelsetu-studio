@@ -21,11 +21,11 @@ import EmptyState from "@/app/components/EmptyState";
 import { useDeleteAlbumDialog } from "@/app/hooks/useDeleteAlbumDialog";
 
 export default function AlbumsList() {
-  const { data: project, isLoading } = useProjectById();
-  const { data: albums } = useAlbumsByProjectId();
+  const { data: project, isPending: isProjectPending } = useProjectById();
+  const { data: albums, isPending: isAlbumsPending } = useAlbumsByProjectId();
   const router = useRouter();
   const deleteAlbumDialog = useDeleteAlbumDialog();
-  if (isLoading) {
+  if (isProjectPending || isAlbumsPending) {
     return <Loading />;
   }
   return (

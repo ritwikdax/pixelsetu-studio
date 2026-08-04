@@ -9,7 +9,7 @@ export function useDeletePaymentMutation() {
 
   return useMutation({
     mutationFn: async (id: string) => {
-      const response = await appApi.delete(`/studio/payments/${id}`);
+      const response = await appApi.delete(`/payments/${id}`);
       return response.data;
     },
 

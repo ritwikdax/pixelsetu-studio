@@ -1,6 +1,7 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
 import { appApi } from "@utils/http";
+import { listQueryOptions } from "@utils/query";
 import { Project } from "../interfaces/entity";
 import { useParams } from "next/navigation";
 
@@ -10,8 +11,9 @@ export function useProjectById() {
     enabled: !!projectId,
     queryKey: ["projects", projectId],
     queryFn: async () => {
-      const response = await appApi.get(`/studio/projects/${projectId}`);
+      const response = await appApi.get(`/projects/${projectId}`);
       return response.data?.data as Project;
     },
+    ...listQueryOptions,
   });
 }

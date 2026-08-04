@@ -5,8 +5,8 @@ import KeyValueList from "../projects/components/KeyValueList";
 import { useAuthContextQuery } from "@/app/queries/useAuthContext";
 
 export default function SettingsPage() {
-  const { data, isLoading } = useAuthContextQuery();
-  if (isLoading) {
+  const { data, isPending } = useAuthContextQuery();
+  if (isPending) {
     return <Loading />;
   }
   return (

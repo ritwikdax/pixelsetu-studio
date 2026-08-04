@@ -22,7 +22,7 @@ export function useCreateAlbumMutation() {
 
   return useMutation({
     mutationFn: async (data: CreateAlbumData) => {
-      const response = await appApi.post(`/studio/albums`, data);
+      const response = await appApi.post(`/albums`, data);
       return response.data;
     },
 

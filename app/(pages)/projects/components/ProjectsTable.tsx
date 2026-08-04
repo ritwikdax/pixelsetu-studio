@@ -5,32 +5,36 @@ import {
   getCoreRowModel,
   flexRender,
 } from "@tanstack/react-table";
-import { useProjects } from "@/app/queries";
-import { Loading } from "@ritwikdax/uicc";
+import { Button, Flex, Loading } from "@ritwikdax/uicc";
 import { Table } from "@radix-ui/themes";
 import { useProjectTableColumns } from "../hooks/useProjectColumns";
-import { FilterBar } from "@/app/components";
 import { useRouter } from "next/navigation";
 import { useProjectsByFilter } from "@/app/queries/useProjectsByFilter";
 import EmptyState from "@/app/components/EmptyState";
 
 export default function ProjectsTable() {
-  //const { data: projects = [], isLoading } = useProjects();
-  const { data: projects = [], isLoading } = useProjectsByFilter();
+  const {
+    data,
+    isPending,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useProjectsByFilter();
+  const projects = data?.pages.flatMap((page) => page.data) ?? [];
   const router = useRouter();
   const columns = useProjectTableColumns();
 
   const table = useReactTable({
-    data: projects as any[],
+    data: projects,
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
 
-  if (isLoading) {
+  if (isPending && !data) {
     return <Loading />;
   }
 
-  if (!isLoading && projects.length === 0) {
+  if (projects.length === 0) {
     return (
       <EmptyState
         title="No projects found"
@@ -77,6 +81,19 @@ export default function ProjectsTable() {
           ))}
         </Table.Body>
       </Table.Root>
+
+      {hasNextPage && (
+        <Flex justify="center" mt="4">
+          <Button
+            variant="outline"
+            size="2"
+            onClick={() => fetchNextPage()}
+            disabled={isFetchingNextPage}
+          >
+            {isFetchingNextPage ? "Loading..." : "Load more"}
+          </Button>
+        </Flex>
+      )}
     </>
   );
 }

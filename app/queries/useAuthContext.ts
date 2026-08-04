@@ -9,18 +9,20 @@ export function useAuthContextQuery({
     queryKey: ["authContext"],
     enabled,
     queryFn: async () => {
-      const { data: meData } =
-        await authApi.get<SuccessResponse<ProfileInfo>>("api/me");
-      //return meData?.data; // Assuming the user info is in data.data
-      const { data: orgData } =
-        await authApi.get<SuccessResponse<OrgInfo>>("api/org");
+      const [{ data: meData }, { data: orgData }] = await Promise.all([
+        authApi.get<SuccessResponse<ProfileInfo>>("me"),
+        authApi.get<SuccessResponse<OrgInfo>>("org"),
+      ]);
       return {
         me: meData?.data,
         org: orgData?.data,
       } as any;
     },
     retry: false,
+    retryOnMount: false, // Don't re-fetch /me when new components mount after an error
     staleTime: Infinity, // Auth never goes stale automatically
-    refetchOnMount: false, // Don't re-call the API when a new subscriber mounts
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
   });
 }

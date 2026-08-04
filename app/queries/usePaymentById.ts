@@ -10,7 +10,7 @@ export function usePaymentById() {
     enabled: !!projectId && !!paymentId,
     queryKey: ["payments", projectId, paymentId],
     queryFn: async () => {
-      const response = await appApi.get(`/studio/payments/${paymentId}`);
+      const response = await appApi.get(`/payments/${paymentId}`);
       return response.data?.data as Payment;
     },
   });

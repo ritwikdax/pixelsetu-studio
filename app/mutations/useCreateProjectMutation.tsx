@@ -12,7 +12,7 @@ export function useCreateProjectMutation() {
   return useMutation({
     mutationFn: async (data: Omit<Project, "id">) => {
       // Replace with actual API call
-      const response = await appApi.post("/studio/projects", data);
+      const response = await appApi.post("/projects", data);
       return response.data;
     },
 

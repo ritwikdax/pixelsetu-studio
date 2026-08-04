@@ -13,21 +13,21 @@ import { usePaymentColumns } from "../hooks/usePaymentColumns";
 import EmptyState from "@/app/components/EmptyState";
 
 export default function PaymentsTable() {
-  const { data: payments = [], isLoading } = usePayments();
+  const { data: payments, isPending } = usePayments();
   const router = useRouter();
   const columns = usePaymentColumns();
 
   const table = useReactTable({
-    data: payments as any[],
+    data: payments ?? [],
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
 
-  if (isLoading) {
+  if (isPending) {
     return <Loading />;
   }
 
-  if (!isLoading && payments.length === 0) {
+  if (payments?.length === 0) {
     return (
       <EmptyState
         title="No payments found"

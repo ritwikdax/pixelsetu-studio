@@ -13,21 +13,21 @@ import { useAlbumColumns } from "../hooks/useAlbumColumns";
 import EmptyState from "@/app/components/EmptyState";
 
 export default function AlbumsTable() {
-  const { data: albums = [], isLoading } = useAlbums();
+  const { data: albums, isPending } = useAlbums();
   const router = useRouter();
   const columns = useAlbumColumns();
 
   const table = useReactTable({
-    data: albums as any[],
+    data: albums ?? [],
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
 
-  if (isLoading) {
+  if (isPending) {
     return <Loading />;
   }
 
-  if (!isLoading && albums.length === 0) {
+  if (albums?.length === 0) {
     return (
       <EmptyState
         title="No albums found"

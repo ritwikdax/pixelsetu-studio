@@ -15,7 +15,7 @@ export function useUpdateProjectMutation() {
     mutationFn: async (data: Omit<Project, "id">) => {
       // Replace with actual API call
       const response = await appApi.patch(
-        `/studio/projects/${projectId}`,
+        `/projects/${projectId}`,
         data,
       );
       return response.data;

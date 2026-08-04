@@ -10,7 +10,7 @@ export function useDeleteProjectMutation() {
   return useMutation({
     mutationFn: async (id: string) => {
       // Replace with actual API call
-      const response = await appApi.delete(`/studio/projects/${id}`);
+      const response = await appApi.delete(`/projects/${id}`);
       return response.data;
     },
 

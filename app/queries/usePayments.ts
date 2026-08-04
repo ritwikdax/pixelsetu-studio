@@ -1,14 +1,16 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
 import { appApi } from "@utils/http";
+import { listQueryOptions } from "@utils/query";
 import { Payment } from "../interfaces/entity";
 
 export function usePayments() {
   return useQuery({
     queryKey: ["payments"],
     queryFn: async () => {
-      const response = await appApi.get("/studio/payments");
+      const response = await appApi.get("/payments");
       return response.data?.data as Payment[];
     },
+    ...listQueryOptions,
   });
 }

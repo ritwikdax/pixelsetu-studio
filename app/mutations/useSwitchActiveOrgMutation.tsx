@@ -18,8 +18,10 @@ export function useSwitchActiveOrgMutation() {
       toast.show("success", `Organization switched successfully!`, {
         title: "Success",
       });
-      //client.invalidateQueries({ queryKey: ["authContext"] });
-      client.resetQueries();
+      client.invalidateQueries({ queryKey: ["authContext"] });
+      client.removeQueries({ queryKey: ["projects"] });
+      client.removeQueries({ queryKey: ["albums"] });
+      client.removeQueries({ queryKey: ["payments"] });
     },
     onError: (err: AxiosError<ErrorResponse>) => {
       toast.show(

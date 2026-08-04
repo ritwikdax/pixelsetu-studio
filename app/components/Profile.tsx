@@ -1,6 +1,5 @@
 import { ProfileBadge } from "@ritwikdax/uicc";
 import { useRouter } from "next/navigation";
-import { useMyDetails } from "../queries/useMyDetails";
 import { useAuthContextQuery } from "../queries/useAuthContext";
 
 export default function Profile() {

@@ -7,7 +7,7 @@ export function useProjects() {
   return useQuery({
     queryKey: ["projects"],
     queryFn: async () => {
-      const response = await appApi.get("/studio/projects");
+      const response = await appApi.get("/projects");
       return response.data?.data as Project[];
     },
   });

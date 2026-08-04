@@ -25,9 +25,9 @@ const PROJECT_FORM_DEFAULT_VALUES: Omit<Project, "id"> = {
 export default function ManageProject({ mode }: ManageProjectProps) {
   const createMutation = useCreateProjectMutation();
   const updateMutation = useUpdateProjectMutation();
-  const { data, isLoading } = useProjectById();
+  const { data, isPending } = useProjectById();
 
-  if (isLoading) {
+  if (mode === "edit" && isPending) {
     return <Loading />;
   }
 

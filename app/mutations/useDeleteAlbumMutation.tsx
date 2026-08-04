@@ -9,7 +9,7 @@ export function useDeleteAlbumMutation() {
 
   return useMutation({
     mutationFn: async (id: string) => {
-      const response = await appApi.delete(`/studio/albums/${id}`);
+      const response = await appApi.delete(`/albums/${id}`);
       return response.data;
     },
 

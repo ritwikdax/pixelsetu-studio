@@ -1,5 +1,6 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+
+import { useCallback, useRef, useState } from "react";
 import {
   TextField,
   Button,
@@ -9,118 +10,127 @@ import {
   DatePicker,
 } from "@ritwikdax/uicc";
 import { ProjectFilter } from "@/app/interfaces/app.type";
-import { useForm } from "react-hook-form";
 import { dateFormatter } from "@/app/utils";
 import { useProjectFilter } from "@/app/hooks/useProjectFilter";
+
+const SEARCH_DEBOUNCE_MS = 500;
+const MIN_SEARCH_LENGTH = 3;
 
 const QUICK_FILTERS = [
   { id: "last-10", label: "Last 10" },
   { id: "softcopy-pending", label: "Softcopy: Pending" },
   { id: "status-open", label: "Status: Open" },
-];
+] as const;
 
-const QUICK_FILTER_MAP: Record<string, Partial<ProjectFilter>> = {
+const QUICK_FILTER_MAP: Record<
+  (typeof QUICK_FILTERS)[number]["id"],
+  Partial<ProjectFilter>
+> = {
   "last-10": {
     limit: 10,
-  }, // This would be handled differently, likely on the backend
+    sort: "-createdAt",
+  },
   "softcopy-pending": { softcopyUrl: false },
-  "status-done": { status: "closed" },
   "status-open": { status: "open" },
 };
 
+function isQuickFilterActive(filter: ProjectFilter, filterId: string): boolean {
+  const config = QUICK_FILTER_MAP[filterId as keyof typeof QUICK_FILTER_MAP];
+  if (!config) return false;
+
+  return Object.entries(config).every(
+    ([key, value]) => filter[key as keyof ProjectFilter] === value,
+  );
+}
+
+function removeQuickFilterFields(
+  filter: ProjectFilter,
+  filterId: string,
+): ProjectFilter {
+  const config = QUICK_FILTER_MAP[filterId as keyof typeof QUICK_FILTER_MAP];
+  if (!config) return filter;
+
+  const next = { ...filter };
+  for (const key of Object.keys(config)) {
+    delete next[key as keyof ProjectFilter];
+  }
+  return next;
+}
+
+function toMonthDate(filter: ProjectFilter): Date | undefined {
+  const { month, year } = filter.byMonth ?? {};
+  if (!month || !year) return undefined;
+  return new Date(year, month - 1, 1);
+}
+
 export default function FilterBar() {
-  const [, setFilter] = useProjectFilter();
-  const { getValues, setValue, watch, unregister } = useForm<ProjectFilter>({
-    defaultValues: {
-      byMonth: {
-        month: new Date().getMonth() + 1,
-        year: new Date().getFullYear(),
-      },
+  const [filter, setFilter] = useProjectFilter();
+  const [searchInput, setSearchInput] = useState(filter.searchTerm ?? "");
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const applySearchFilter = useCallback(
+    (value: string) => {
+      setFilter((prev) => {
+        const next = { ...prev };
+        const trimmed = value.trim();
+
+        if (trimmed) {
+          next.searchTerm = trimmed;
+        } else {
+          delete next.searchTerm;
+        }
+
+        return next;
+      });
     },
-  });
-
-  const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
-  const searchQuery = watch("searchTerm") || "";
-  const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
-
-  // Call onFiltersChange on mount with default values
-  useEffect(() => {
-    // onFiltersChange?.(getValues());
-    setFilter(getValues());
-  }, []);
-
-  // Debounce search term changes
-  useEffect(() => {
-    if (debounceTimerRef.current) {
-      clearTimeout(debounceTimerRef.current);
-    }
-
-    debounceTimerRef.current = setTimeout(() => {
-      // Only trigger filter if search has 3+ characters or is empty (cleared)
-      if (!searchQuery || searchQuery.length >= 3) {
-        setFilter(getValues());
-      }
-    }, 500);
-
-    return () => {
-      if (debounceTimerRef.current) {
-        clearTimeout(debounceTimerRef.current);
-      }
-    };
-  }, [searchQuery]);
+    [setFilter],
+  );
 
   const handleSearchChange = (value: string) => {
-    if (value.trim() === "") {
-      unregister("searchTerm");
-    } else {
-      setValue("searchTerm", value);
+    setSearchInput(value);
+
+    if (debounceRef.current) {
+      clearTimeout(debounceRef.current);
+    }
+
+    if (!value || value.length >= MIN_SEARCH_LENGTH) {
+      debounceRef.current = setTimeout(() => {
+        applySearchFilter(value);
+      }, SEARCH_DEBOUNCE_MS);
     }
   };
 
   const handleDateChange = (date: Date | undefined) => {
-    if (date) {
-      setValue("byMonth", {
-        month: date.getMonth() + 1,
-        year: date.getFullYear(),
-      });
-    } else {
-      unregister("byMonth");
-    }
-    setFilter(getValues());
+    setFilter((prev) => {
+      const next = { ...prev };
+      if (date) {
+        next.byMonth = {
+          month: date.getMonth() + 1,
+          year: date.getFullYear(),
+        };
+      } else {
+        delete next.byMonth;
+      }
+      return next;
+    });
   };
 
   const toggleFilter = (filterId: string) => {
-    const isCurrentlySelected = selectedFilters.includes(filterId);
-
-    if (isCurrentlySelected) {
-      // Remove filter
-      setSelectedFilters(selectedFilters.filter((id) => id !== filterId));
-
-      // Unregister the corresponding form fields
-      const filterConfig = QUICK_FILTER_MAP[filterId];
-      if (filterConfig) {
-        Object.keys(filterConfig).forEach((key) => {
-          unregister(key as keyof ProjectFilter);
-        });
-      }
-    } else {
-      // Add filter
-      setSelectedFilters([...selectedFilters, filterId]);
-
-      // Apply the filter values
-      const filterConfig = QUICK_FILTER_MAP[filterId];
-      if (filterConfig) {
-        Object.entries(filterConfig).forEach(([key, value]) => {
-          setValue(key as keyof ProjectFilter, value as any);
-        });
-      }
+    if (isQuickFilterActive(filter, filterId)) {
+      setFilter((prev) => removeQuickFilterFields(prev, filterId));
+      return;
     }
 
-    // Call onFiltersChange with updated values
-    setTimeout(() => {
-      setFilter(getValues());
-    }, 0);
+    const config = QUICK_FILTER_MAP[filterId as keyof typeof QUICK_FILTER_MAP];
+    if (config) {
+      setFilter((prev) => ({ ...prev, ...config }));
+    }
   };
+
+  const formatMonth = useCallback(
+    (date: Date) => dateFormatter(date, { includeDay: false }),
+    [],
+  );
 
   return (
     <Box
@@ -134,29 +144,29 @@ export default function FilterBar() {
           size="3"
           type="text"
           placeholder="Search projects..."
-          value={searchQuery}
+          value={searchInput}
           onChange={(e) => handleSearchChange(e.target.value)}
         />
         <DatePicker
-          dateFormat={(date) => dateFormatter(date, { includeDay: false })}
+          dateFormat={formatMonth}
           mode="month"
-          defaultValue={new Date()}
+          value={toMonthDate(filter)}
           onChange={handleDateChange}
         />
         <Flex gap="2" wrap="wrap" align="center">
           <Text size="2" weight="medium" style={{ color: "var(--gray-11)" }}>
             Quick Filters:
           </Text>
-          {QUICK_FILTERS.map((filter) => (
+          {QUICK_FILTERS.map((quickFilter) => (
             <Button
-              key={filter.id}
-              onClick={() => toggleFilter(filter.id)}
+              key={quickFilter.id}
+              onClick={() => toggleFilter(quickFilter.id)}
               variant={
-                selectedFilters.includes(filter.id) ? "solid" : "outline"
+                isQuickFilterActive(filter, quickFilter.id) ? "solid" : "outline"
               }
               size="1"
             >
-              {filter.label}
+              {quickFilter.label}
             </Button>
           ))}
         </Flex>

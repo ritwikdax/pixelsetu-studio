@@ -10,7 +10,7 @@ export function useAlbumById() {
     enabled: !!projectId && !!albumId,
     queryKey: ["albums", projectId, albumId],
     queryFn: async () => {
-      const response = await appApi.get(`/studio/albums/${albumId}`);
+      const response = await appApi.get(`/albums/${albumId}`);
       return response.data?.data as Album;
     },
   });

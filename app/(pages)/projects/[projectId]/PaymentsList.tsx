@@ -16,13 +16,13 @@ import EmptyState from "@/app/components/EmptyState";
 import { useDeletePaymentDialog } from "@/app/hooks/useDeletePaymentDialog";
 
 export default function PaymentsList() {
-  const { data: project, isLoading } = useProjectById();
-  const { data: payments, isLoading: isPaymentsLoading } =
+  const { data: project, isPending: isProjectPending } = useProjectById();
+  const { data: payments, isPending: isPaymentsPending } =
     usePaymentsByProjectId();
   const router = useRouter();
   const deletePaymentDialog = useDeletePaymentDialog();
 
-  if (isLoading || isPaymentsLoading) {
+  if (isProjectPending || isPaymentsPending) {
     return <Loading />;
   }
 

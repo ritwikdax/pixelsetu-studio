@@ -1,9 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const HOME_URL = "https://home.pixelsetu.com";
+const COOKIE_HEADER_NAME = "session_token";
+const HOME_URL =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:3001"
+    : "https://home.pixelsetu.com";
 
 export function proxy(req: NextRequest) {
-  const cookie = req.cookies.get("session_id");
+  const cookie = req.cookies.get(COOKIE_HEADER_NAME);
 
   if (!cookie) {
     return NextResponse.redirect(new URL(HOME_URL));

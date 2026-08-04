@@ -1,6 +1,4 @@
-import TopNav from "./components/TopNav";
 import UserActions from "./components/UserActions";
-import { useMyDetails } from "./queries/useMyDetails";
 
 export default async function Home() {
   return (

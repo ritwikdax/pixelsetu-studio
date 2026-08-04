@@ -16,7 +16,7 @@ export function useUpdatePaymentMutation() {
   return useMutation({
     mutationFn: async (data: UpdatePaymentData) => {
       const response = await appApi.patch(
-        `/studio/payments/${paymentId}`,
+        `/payments/${paymentId}`,
         data,
       );
       return response.data;
