@@ -16,6 +16,8 @@ export function useDeleteProjectMutation() {
 
     onSuccess: (message) => {
       queryClient.invalidateQueries({ queryKey: ["projects"] });
+      queryClient.invalidateQueries({ queryKey: ["albums"] });
+      queryClient.invalidateQueries({ queryKey: ["payments"] });
       console.log("Project deleted successfully:", message);
       // Invalidate or refetch projects query here if needed
       toast.show("success", "Project deleted successfully!", {

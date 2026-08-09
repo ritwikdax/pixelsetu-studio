@@ -8,7 +8,7 @@ export function useAlbums() {
   return useQuery({
     queryKey: ["albums"],
     queryFn: async () => {
-      const response = await appApi.get("/albums");
+      const response = await appApi.get("albums");
       return response.data?.data as Album[];
     },
     ...listQueryOptions,

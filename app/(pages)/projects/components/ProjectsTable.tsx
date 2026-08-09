@@ -16,11 +16,11 @@ export default function ProjectsTable() {
   const {
     data,
     isPending,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
+    // fetchNextPage,
+    // hasNextPage,
+    // isFetchingNextPage,
   } = useProjectsByFilter();
-  const projects = data?.pages.flatMap((page) => page.data) ?? [];
+  const projects = data?.data ?? [];
   const router = useRouter();
   const columns = useProjectTableColumns();
 
@@ -82,7 +82,7 @@ export default function ProjectsTable() {
         </Table.Body>
       </Table.Root>
 
-      {hasNextPage && (
+      {/* {hasNextPage && (
         <Flex justify="center" mt="4">
           <Button
             variant="outline"
@@ -93,7 +93,7 @@ export default function ProjectsTable() {
             {isFetchingNextPage ? "Loading..." : "Load more"}
           </Button>
         </Flex>
-      )}
+      )} */}
     </>
   );
 }

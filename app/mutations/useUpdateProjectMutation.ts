@@ -23,6 +23,8 @@ export function useUpdateProjectMutation() {
 
     onSuccess: (message) => {
       queryClient.invalidateQueries({ queryKey: ["projects"] });
+      queryClient.invalidateQueries({ queryKey: ["albums"] });
+      queryClient.invalidateQueries({ queryKey: ["payments"] });
       console.log("Project updated successfully:", message);
       // Invalidate or refetch projects query here if needed
       toast.show("success", "Project updated successfully!", {

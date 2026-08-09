@@ -9,7 +9,7 @@ export function useSwitchActiveOrgMutation() {
   const client = useQueryClient();
   return useMutation({
     mutationFn: async (orgId: string) => {
-      const { data } = await authApi.patch("api/me/switch-org-context", {
+      const { data } = await authApi.patch("me/switch-org", {
         orgId,
       });
       return data;
